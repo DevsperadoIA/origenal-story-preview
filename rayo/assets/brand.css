@@ -1,0 +1,176 @@
+/* Origenal Story sobre Rayo: fuentes, paleta de la marca y lo que en el original hacia GSAP. */
+@font-face { font-family: "Funnel Display"; font-weight: 300 800; font-display: swap; src: url(/origenal-story-preview/rayo/fonts/funnel-display/B50WF7FGv37QNVWgE0ga--4Pbb6dDYs.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Funnel Display"; font-weight: 300 800; font-display: swap; src: url(/origenal-story-preview/rayo/fonts/funnel-display/B50WF7FGv37QNVWgE0ga--4Pbb6TDYsmgQ.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Funnel Sans"; font-weight: 300 800; font-display: swap; src: url(/origenal-story-preview/rayo/fonts/funnel-sans/OpNIno8Dg9bX6Bsp3Wq69Tpyfhg.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Funnel Sans"; font-weight: 300 800; font-display: swap; src: url(/origenal-story-preview/rayo/fonts/funnel-sans/OpNIno8Dg9bX6Bsp3Wq69Tp8fhj6yg.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Funnel Sans"; font-style: italic; font-weight: 300 800; font-display: swap; src: url(/origenal-story-preview/rayo/fonts/funnel-sans/OpNKno8Dg9bX6Bsp3Wq69Tp3Thrizg.woff2) format("woff2"); }
+
+:root, html, body, [color-scheme] {
+  --accent--light: #ea6307;
+  --accent-rgb--light: 234, 99, 7;
+  --accent--dark: #f7941c;
+  --accent-rgb--dark: 247, 148, 28;
+  --additional--light: #f7941c;
+  --additional-rgb--light: 247, 148, 28;
+  --os-grad: linear-gradient(115deg, #f7941c 0%, #f27259 45%, #ed207b 100%);
+  --os-forest: #1f3b2d;
+}
+
+/* Sin GSAP: lo que el original dejaba a opacidad 0 lo enciende rayo.js */
+.loading__item, .loading__fade { transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1); transform: translateY(18px); }
+.is-loaded .loading__item, .is-loaded .loading__fade { opacity: 1; transform: none; }
+.js .anim-uni-in-up { opacity: 0; transform: translateY(26px); transition: opacity .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1); }
+.js .anim-uni-in-up.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .loading__item, .loading__fade, .js .anim-uni-in-up { opacity: 1 !important; transform: none !important; transition: none; }
+  .os-marquee .marquee-flex { animation: none !important; }
+}
+
+/* Logo */
+.os-logo img { height: 3.4rem; width: auto; display: block; }
+.t-accent { color: var(--accent) !important; }
+
+/* Menu a pantalla completa (el original lo animaba con GSAP) */
+.mxd-menu__wrapper { position: fixed; inset: 0; z-index: 100; opacity: 0; visibility: hidden; transition: opacity .45s, visibility .45s; }
+.mxd-menu__wrapper.active_menu { opacity: 1; visibility: visible; }
+.mxd-menu__base { background: var(--base-opp); }
+.mxd-nav__contain { z-index: 110 !important; }
+/* La primera raya es el 2o hijo (el 1o es la base): el :first-child del original no la cogia */
+.nav-open .hamburger__line:nth-child(2) { transform: translateY(5px) rotate(45deg) !important; }
+.nav-open .hamburger__line:last-child { transform: translateY(-5px) rotate(-45deg) !important; }
+.mxd-menu__caption, .menu-promo__caption, .mxd-menu__data, .mxd-menu__data a { color: rgba(250, 247, 246, .6) !important; }
+.mxd-nav__contain .mxd-nav__hamburger { pointer-events: all; }
+.os-menu-sub { list-style: none; padding: 0; margin: 2.4rem 0 0; display: grid; gap: .6rem; }
+.os-menu-sub a { text-decoration: none; color: rgba(250, 247, 246, .65); font-size: 1.7rem; }
+.os-menu-sub a span { color: var(--accent); margin-right: .6rem; }
+.os-menu-sub a:hover { color: var(--accent); }
+.menu-promo__video img { width: 100%; border-radius: var(--_radius-m, 2rem); aspect-ratio: 16 / 9; object-fit: cover; }
+
+/* Marquees en CSS */
+.os-marquee { overflow: hidden; }
+.os-marquee .marquee-flex { display: inline-flex; white-space: nowrap; will-change: transform; animation: os-left 40s linear infinite; }
+.os-marquee.marquee-right .marquee-flex { animation-name: os-right; animation-duration: 55s; }
+@keyframes os-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes os-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.os-marquee .marquee__image { color: var(--accent); }
+
+/* Hero: fijo detras y las 8 fotos subiendo por encima (lo que en Rayo hacia el pin de GSAP) */
+.os-hero { padding-top: 0; }
+.os-pinned { position: relative; height: auto; min-height: 0; }
+.os-pinned__static { position: sticky; top: 0; height: 100vh; min-height: 64rem; display: flex; flex-direction: column; justify-content: space-between; padding: 13rem 0 4rem; z-index: 0; }
+.os-pinned__scroll { position: relative; z-index: 2; padding-top: 6vh; padding-bottom: 12rem !important; pointer-events: none; }
+.os-pinned__scroll .mxd-hero-02-image__inner { pointer-events: auto; }
+.os-pinned__static > .mxd-hero-02-static__top, .os-pinned__static > .mxd-hero-02-static__center, .os-pinned__static > .mxd-hero-02-static__bottom {
+  position: relative !important; inset: auto !important; transform: none !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; width: 100%; }
+.os-hero .mxd-hero-02-marquee { position: relative; }
+.os-hero .mxd-hero-02-marquee__image { width: 26rem; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; }
+.os-hero-wood { width: 100%; height: auto; display: block; animation: os-float 7s ease-in-out infinite; filter: drop-shadow(0 24px 30px rgba(60, 40, 20, .28)); }
+@keyframes os-float { 0%, 100% { transform: translateY(-8px) rotate(-4deg); } 50% { transform: translateY(8px) rotate(4deg); } }
+@keyframes os-spin { to { transform: rotate(360deg); } }
+.os-hero-lists { display: flex; gap: 6rem; }
+.os-hero-lists ul { list-style: none; padding: 0; margin: 0; }
+.os-hero-lists li { font-size: 1.6rem; line-height: 1.5; padding: .2rem 0; }
+.os-hero-lists li::before { content: "\2022"; color: var(--accent); margin-right: .8rem; }
+.os-hero-badge { display: flex; justify-content: flex-end; align-items: flex-end; }
+.os-hero-badge img { width: 12rem; height: auto; }
+.os-hero-bottom { align-items: end; row-gap: 3rem; }
+
+/* Stack de servicios: apilado con sticky en vez de GSAP */
+.os-stack.services-stack { height: auto !important; min-height: 0 !important; display: grid; gap: 0; }
+.os-stack .stack-item { position: sticky !important; top: 10rem; height: auto; padding-bottom: 3rem; }
+.os-stack .stack-item:nth-child(2) { top: 12rem; } .os-stack .stack-item:nth-child(3) { top: 14rem; } .os-stack .stack-item:nth-child(4) { top: 16rem; }
+.os-stack .mxd-services-stack__inner { width: 100%; min-height: 56rem; box-shadow: 0 -2rem 6rem -3rem rgba(0, 0, 0, .35); }
+.bg-forest { background-color: var(--os-forest) !important; }
+.mxd-services-stack__number { color: currentColor; opacity: .55; }
+.bg-base-opp .mxd-services-stack__title, .bg-accent .mxd-services-stack__title, .bg-forest .mxd-services-stack__title { color: #fff; }
+.os-stack-cta { margin-top: 2.4rem; }
+.os-stack .mxd-services-stack__works { display: flex; gap: 2rem; margin-top: 3rem; }
+.os-stack .mxd-services-stack__work { flex: 1 1 0; border-radius: 1.6rem; overflow: hidden; position: relative; display: block; min-height: 22rem; text-decoration: none; }
+.os-stack .mxd-services-stack__preview { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; transition: transform 1s; }
+.os-stack .mxd-services-stack__work:hover .mxd-services-stack__preview { transform: scale(1.05); }
+.os-stack .tags-absolute { position: absolute; left: 1.6rem; bottom: 1.6rem; display: flex; flex-wrap: wrap; gap: .6rem; z-index: 2; }
+.os-case-tile { background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); padding: 2.4rem; display: flex !important; flex-direction: column; color: inherit; }
+.bg-base-tint .os-case-tile { background: var(--base); border-color: rgba(0, 0, 0, .08); }
+.os-case-tile__client { font-size: 1.3rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+.os-case-tile__title { font-family: var(--_font-accent); font-size: 2.6rem; line-height: 1.15; margin-top: 1.2rem; }
+.os-case-tile__more { margin-top: auto; padding-top: 2rem; font-size: 1.5rem; }
+.bg-base-opp .os-case-tile, .bg-accent .os-case-tile, .bg-forest .os-case-tile { color: #fff; }
+
+/* Cifras: cuatro tarjetas iguales, foto arriba y numero debajo */
+.os-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.os-stat { background: var(--base-tint); border-radius: var(--_radius-m, 2.4rem); padding: 1.2rem 1.2rem 2.8rem; display: flex; flex-direction: column; }
+.os-stat__pic { border-radius: 1.6rem; overflow: hidden; aspect-ratio: 4 / 3; margin-bottom: 2.4rem; }
+.os-stat__pic img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s; }
+.os-stat:hover .os-stat__pic img { transform: scale(1.05); }
+.os-stat__num { font-family: var(--_font-accent); font-weight: 500; font-size: clamp(5.6rem, 5.6vw, 8.4rem); line-height: 1; letter-spacing: -.03em; color: var(--accent); margin: 0 1.4rem; }
+.os-stat__label { font-size: 1.7rem; line-height: 1.4; margin: 1.4rem 1.4rem 0; color: var(--t-bright, #1c1c1c); max-width: 26rem; }
+
+/* Imagen flotante de las listas */
+.hover-reveal__item { position: relative; }
+.hover-reveal__content { position: absolute; top: 0; left: 0; z-index: 5; pointer-events: none; opacity: 0; transition: opacity .3s; }
+.hover-reveal__content.os-show { opacity: 1; }
+.hover-reveal__content img { width: 100%; height: 100%; object-fit: cover; border-radius: 1.6rem; }
+
+/* Marcas en texto */
+.os-brand { font-family: var(--_font-accent); font-size: 2.4rem; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 14rem; padding: 2rem; }
+
+.os-founder-photo { margin-top: 3rem; max-width: 42rem; }
+.os-founder-photo img { width: 100%; border-radius: 2rem; aspect-ratio: 4 / 3; object-fit: cover; }
+
+/* Bloque promo con el degradado de la marca */
+.mxd-promo__bg.os-grad { background: var(--os-grad) !important; background-image: var(--os-grad) !important; }
+.mxd-promo__icon img { width: 6rem; height: auto; animation: os-spin 40s linear infinite; }
+.mxd-promo__inner { background: var(--os-grad); }
+.mxd-promo__bg.os-grad { display: none !important; }
+.mxd-promo .btn-additional { background: #fff !important; color: #2b2a28 !important; }
+.mxd-promo__title, .mxd-promo__caption { color: #fff; }
+.promo-image { border-radius: 2rem; object-fit: cover; }
+
+/* Paginas de servicio y casos */
+.os-help-title { margin: 8rem 0 2rem; }
+.os-help-title h2 { font-size: clamp(3.2rem, 4vw, 5.6rem); }
+.os-step-n { display: block; color: var(--accent); font-size: .55em; margin-bottom: .6rem; }
+.mxd-project__subtitle h2 small { display: block; font-size: .42em; color: var(--t-muted, #8a8580); margin-top: 1.2rem; font-family: var(--_font-default); }
+.os-step-label { font-size: 1.3rem; letter-spacing: .14em; text-transform: uppercase; opacity: .6; margin: 2.6rem 0 1.2rem; }
+.os-step-note { margin-top: 1.8rem; }
+.os-step-note b { color: var(--accent); font-weight: 600; }
+.os-tags { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: .8rem; margin-top: 2rem; }
+.mxd-approach-list__title { text-align: left !important; }
+.mxd-approach-list__title p { font-family: var(--_font-accent); font-size: clamp(2.2rem, 2.2vw, 3rem); line-height: 1.15; margin: 0; }
+.mxd-approach-list__inner { padding: 2.8rem 0; }
+.mxd-services-list__title a { background: none !important; border: 0 !important; line-height: 1.08; display: inline-block; }
+.os-worklist .mxd-services-list__title p { font-size: clamp(2.4rem, 2.8vw, 3.8rem); line-height: 1.1; }
+.mxd-services-list__title p { font-size: clamp(3rem, 3.6vw, 5.2rem); }
+.mxd-approach-list__title a, .mxd-services-list__title a { text-decoration: none; color: inherit; }
+.mxd-services-list__title a:hover { color: var(--accent); }
+.os-delivered { list-style: none; padding: 0; margin: 0; counter-reset: d; }
+.os-delivered li { counter-increment: d; padding: 1.6rem 0; border-bottom: 1px solid rgba(0, 0, 0, .1); font-size: 1.9rem; display: flex; gap: 1.6rem; }
+.os-delivered li::before { content: counter(d, decimal-leading-zero); color: var(--accent); font-family: var(--_font-accent); }
+.mxd-divider__image { background-size: cover; background-position: center; }
+
+/* Pie: la palabra de la marca en lugar del logotipo de la plantilla */
+.os-footer-word { font-family: var(--_font-accent); font-weight: 500; font-size: clamp(6rem, 15.5vw, 26rem); line-height: .9; letter-spacing: -.04em; text-align: center; color: var(--base-opp); padding: 2rem 0 4rem; white-space: nowrap; }
+
+@media (max-width: 1199px) {
+  .os-stats { grid-template-columns: repeat(2, 1fr); }
+  .os-stack .stack-item { position: relative !important; top: 0 !important; }
+  .os-stack .mxd-services-stack__inner { min-height: 0; }
+  .os-stack .mxd-services-stack__works { flex-direction: column; }
+  .os-pinned__static { position: relative; height: auto; min-height: 0; padding: 11rem 0 3rem; gap: 5rem; }
+}
+@media (max-width: 767px) {
+  .os-stats { gap: 1.2rem; }
+  .os-stat__num { font-size: 4.4rem; }
+  .os-stat__label { font-size: 1.4rem; }
+  .os-hero .mxd-hero-02-marquee__image { width: 14rem; }
+  .os-hero-lists { gap: 3rem; }
+  .os-pinned__scroll { padding: 0 2rem 6rem !important; }
+  .os-pinned__scroll .mxd-hero-02-scroll__images { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+  .os-pinned__scroll .mxd-hero-02-images__row { display: contents; }
+  .os-pinned__scroll .mxd-hero-02-image__portrait, .os-pinned__scroll .mxd-hero-02-image__landscape { padding: 0 !important; margin: 0 !important; }
+  .os-pinned__scroll .mxd-hero-02-image__inner { width: 100% !important; height: auto !important; aspect-ratio: 4 / 5; }
+  .os-pinned__scroll .mxd-hero-02-image__portrait:nth-child(even) .mxd-hero-02-image__inner { margin-top: 3rem; }
+  .os-hero-lists li { font-size: 1.4rem; }
+  .os-hero-badge { display: none !important; }
+  .os-brand { font-size: 1.9rem; min-height: 9rem; }
+}
