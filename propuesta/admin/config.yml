@@ -1,0 +1,421 @@
+# Panel de edicion de origenalstory.com (Sveltia CMS).
+# Cada campo de aqui es una clave de content/*.json; check_cms.py comprueba que no falte ninguna.
+backend:
+  name: github
+  repo: DevsperadoIA/origenal-story-web
+  branch: main
+  commit_messages:
+    create: "content: crea {{collection}} {{slug}}"
+    update: "content: edita {{collection}} {{slug}}"
+    delete: "content: borra {{collection}} {{slug}}"
+    uploadMedia: "content: sube {{path}}"
+    deleteMedia: "content: borra {{path}}"
+
+app_title: Origenal Story · Editor
+logo:
+  src: ../assets/img/icon-orange.png
+site_url: https://devsperadoia.github.io/origenal-story-preview/propuesta/
+display_url: https://devsperadoia.github.io/origenal-story-preview/propuesta/
+
+media_folder: assets/img
+public_folder: /assets/img
+media_libraries:
+  default:
+    config:
+      max_file_size: 15000000
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 2400
+          height: 2400
+
+
+collections:
+  # ---------------------------------------------------------------- PAGINAS
+  - name: pages
+    label: Páginas
+    label_singular: Página
+    icon: description
+    format: json
+    files:
+      - name: home
+        label: Inicio (home)
+        file: content/home.json
+        fields:
+          - { name: seo_title, label: "Título en Google y en la pestaña", widget: string }
+          - { name: seo_description, label: "Descripción en Google", widget: text }
+          - { name: hero_kicker, label: "Portada · texto pequeño de arriba", widget: string }
+          - { name: hero_title, label: "Portada · titular", widget: text, hint: &hl "Pon *entre asteriscos* la palabra que quieras que salga resaltada en color." }
+          - { name: hero_lead, label: "Portada · subtítulo", widget: text }
+          - { name: hero_button, label: "Portada · botón naranja", widget: string }
+          - { name: hero_button_2, label: "Portada · segundo botón", widget: string }
+          - name: hero_images
+            label: "Portada · las 3 fotos en arco"
+            widget: list
+            min: 3
+            max: 3
+            summary: "{{alt}}"
+            fields:
+              - { name: image, label: Foto, widget: image, hint: &img "JPG, PNG o WebP. Se convierte sola a WebP y se reduce a 2400 px." }
+              - { name: alt, label: "Descripción de la foto (para ciegos y Google)", widget: string, required: false }
+          - name: verbs
+            label: "Palabras que pasan (cinta y sello)"
+            widget: list
+            field: { name: verb, label: Palabra, widget: string }
+          - { name: intro_kicker, label: "Bloque «Qué hacemos» · etiqueta", widget: string }
+          - { name: intro_text, label: "Bloque «Qué hacemos» · frase grande", widget: text, hint: "Pon *entre asteriscos* lo que va en cursiva." }
+          - name: skills
+            label: "Bloque «Qué hacemos» · etiquetas"
+            widget: list
+            field: { name: skill, label: Etiqueta, widget: string }
+          - { name: sectors_kicker, label: "Sectores · etiqueta", widget: string }
+          - { name: sectors_title, label: "Sectores · título", widget: string, hint: *hl }
+          - { name: sectors_text, label: "Sectores · texto", widget: text }
+          - name: sectors
+            label: "Sectores · tarjetas con foto"
+            widget: list
+            summary: "{{name}}"
+            fields:
+              - { name: name, label: Sector, widget: string }
+              - { name: image, label: Foto, widget: image, hint: *img }
+          - { name: services_kicker, label: "Servicios · etiqueta", widget: string }
+          - { name: services_title, label: "Servicios · título", widget: string, hint: *hl }
+          - { name: services_text, label: "Servicios · texto", widget: text }
+          - { name: services_more, label: "Servicios · texto del enlace (va delante del nombre del servicio)", widget: string }
+          - { name: trust_kicker, label: "Why trust us · etiqueta", widget: string }
+          - { name: trust_title, label: "Why trust us · título", widget: string, hint: *hl }
+          - { name: trust_text, label: "Why trust us · texto", widget: text }
+          - name: lenses
+            label: "Why trust us · las 3 razones"
+            hint: "Las cifras de este bloque se editan en «Datos generales»."
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Título, widget: string }
+              - { name: text, label: Texto, widget: text }
+          - { name: brands_kicker, label: "Marcas · etiqueta", widget: string }
+          - name: brands
+            label: "Marcas · muro de marcas"
+            widget: list
+            summary: "{{name}}"
+            fields:
+              - { name: name, label: Marca, widget: string }
+              - { name: case, label: "Enlaza a este proyecto (opcional)", widget: relation, collection: works, value_field: "{{slug}}", search_fields: [client, title], display_fields: [client, title], required: false }
+          - { name: brands_text, label: "Marcas · texto de abajo", widget: text }
+          - { name: founder_kicker, label: "Fundadora · etiqueta", widget: string }
+          - { name: founder_title, label: "Fundadora · título", widget: text, hint: *hl }
+          - { name: founder_quote, label: "Fundadora · cita", widget: text }
+          - { name: founder_text, label: "Fundadora · texto", widget: text }
+          - { name: founder_button, label: "Fundadora · botón", widget: string }
+          - { name: founder_image, label: "Fundadora · foto", widget: image, hint: *img }
+          - { name: founder_image_alt, label: "Fundadora · descripción de la foto", widget: string, required: false }
+          - { name: founder_tag, label: "Fundadora · etiqueta sobre la foto", widget: string }
+          - { name: work_kicker, label: "Proyectos · etiqueta", widget: string }
+          - { name: work_title, label: "Proyectos · título", widget: string, hint: *hl }
+          - { name: work_button, label: "Proyectos · botón", widget: string, hint: "{count} se cambia solo por el número de proyectos publicados." }
+          - name: featured
+            label: "Proyectos destacados en la home"
+            widget: relation
+            collection: works
+            value_field: "{{slug}}"
+            search_fields: [client, title]
+            display_fields: [client, title]
+            multiple: true
+
+      - name: site
+        label: "Datos generales: contacto, cifras, menú y pie"
+        file: content/site.json
+        fields:
+          - { name: name, label: "Nombre de la marca", widget: string }
+          - { name: email, label: "Email de contacto", widget: string, hint: "También recibe los mensajes del formulario." }
+          - { name: linkedin, label: "LinkedIn (enlace)", widget: string }
+          - { name: facebook, label: "Facebook (enlace)", widget: string }
+          - { name: location, label: "Ciudad", widget: string }
+          - { name: languages, label: "Idiomas (pie de página)", widget: string }
+          - { name: footer_text, label: "Frase del pie de página", widget: text }
+          - { name: copyright, label: "Copyright", widget: string }
+          - { name: og_image, label: "Foto al compartir en redes", widget: image, hint: *img }
+          - name: stats
+            label: "Cifras (home, About y Fundadora)"
+            hint: "Escribe el número con su signo, por ejemplo 25+. El número se anima solo."
+            widget: list
+            summary: "{{value}} {{label}}"
+            fields:
+              - { name: value, label: Cifra, widget: string }
+              - { name: label, label: Texto, widget: text }
+          - name: cta
+            label: "Bloque final naranja (en casi todas las páginas)"
+            widget: object
+            fields:
+              - { name: title, label: Título, widget: string }
+              - { name: text, label: Texto, widget: text }
+              - { name: button, label: Botón, widget: string }
+          - name: nav
+            label: "Menú"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: home, label: "Inicio (en las migas de pan)", widget: string }
+              - { name: services, label: Servicios, widget: string }
+              - { name: work, label: Proyectos, widget: string }
+              - { name: about, label: About, widget: string }
+              - { name: founder, label: Fundadora, widget: string }
+              - { name: contact, label: Contacto, widget: string }
+              - { name: cta, label: "Botón naranja del menú", widget: string }
+          - name: footer
+            label: "Pie de página: títulos de columna"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: services_title, label: "Columna servicios", widget: string }
+              - { name: studio_title, label: "Columna estudio", widget: string }
+              - { name: about, label: "Enlace a About", widget: string }
+              - { name: founder, label: "Enlace a Fundadora", widget: string }
+              - { name: hello_title, label: "Columna contacto", widget: string }
+
+      - name: services_page
+        label: "Servicios (página general y textos comunes)"
+        file: content/services.json
+        fields:
+          - { name: seo_title, label: "Título en Google", widget: string }
+          - { name: seo_description, label: "Descripción en Google", widget: text }
+          - { name: title, label: Titular, widget: string, hint: *hl }
+          - { name: lead, label: Subtítulo, widget: text }
+          - { name: more, label: "Texto del enlace de cada servicio", widget: string }
+          - { name: support_label, label: "Título de la caja «What we can support with»", widget: string }
+          - { name: steps_kicker, label: "Etiqueta de los pasos", widget: string }
+          - { name: steps_title, label: "Título de los pasos", widget: string, hint: *hl }
+          - { name: expect_label, label: "Caja «What to expect»", widget: string }
+          - { name: best_label, label: "Caja «Best for»", widget: string }
+          - { name: works_kicker, label: "Proyectos relacionados · etiqueta", widget: string }
+          - { name: works_title, label: "Proyectos relacionados · título", widget: string, hint: *hl }
+          - { name: next_label, label: "Enlace al siguiente servicio", widget: string }
+
+      - name: work_page
+        label: "Proyectos (página general y fichas)"
+        file: content/work.json
+        fields:
+          - { name: seo_title, label: "Título en Google", widget: string }
+          - { name: seo_description, label: "Descripción en Google", widget: text }
+          - { name: title, label: Titular, widget: string, hint: *hl }
+          - { name: lead, label: Subtítulo, widget: text }
+          - { name: filter_all, label: "Filtro «todos»", widget: string }
+          - { name: case_service, label: "Ficha · Service", widget: string }
+          - { name: case_market, label: "Ficha · Market", widget: string }
+          - { name: case_sector, label: "Ficha · Sector", widget: string }
+          - { name: case_year, label: "Ficha · Year", widget: string }
+          - { name: case_challenge, label: "Ficha · The challenge", widget: string }
+          - { name: case_solution, label: "Ficha · The solution", widget: string }
+          - { name: case_delivered, label: "Ficha · What we delivered", widget: string }
+          - { name: case_part_of, label: "Ficha · Part of", widget: string }
+          - { name: case_next, label: "Ficha · Next project", widget: string }
+
+      - name: about
+        label: About
+        file: content/about.json
+        fields:
+          - { name: seo_title, label: "Título en Google", widget: string }
+          - { name: seo_description, label: "Descripción en Google", widget: text }
+          - { name: title, label: Titular, widget: string, hint: *hl }
+          - { name: lead, label: Subtítulo, widget: text }
+          - { name: image, label: "Foto grande", widget: image, hint: *img }
+          - { name: approach_kicker, label: "Enfoque · etiqueta", widget: string }
+          - { name: approach_title, label: "Enfoque · frase grande", widget: text, hint: "Pon *entre asteriscos* lo que va en cursiva." }
+          - name: approach_text
+            label: "Enfoque · párrafos"
+            widget: list
+            field: { name: paragraph, label: Párrafo, widget: text }
+          - { name: values_kicker, label: "Valores · etiqueta", widget: string }
+          - { name: values_title, label: "Valores · título", widget: string, hint: *hl }
+          - name: values
+            label: "Valores"
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Título, widget: string }
+              - { name: text, label: Texto, widget: text }
+          - { name: founder_kicker, label: "Fundadora · etiqueta", widget: string }
+          - { name: founder_name, label: "Fundadora · nombre", widget: string }
+          - { name: founder_text, label: "Fundadora · texto", widget: text }
+          - { name: founder_button, label: "Fundadora · botón", widget: string }
+          - { name: founder_image, label: "Fundadora · foto", widget: image, hint: *img }
+          - { name: founder_image_alt, label: "Fundadora · descripción de la foto", widget: string, required: false }
+
+      - name: founder
+        label: "Fundadora (About its founder)"
+        file: content/founder.json
+        fields:
+          - { name: seo_title, label: "Título en Google", widget: string }
+          - { name: seo_description, label: "Descripción en Google", widget: text }
+          - { name: kicker, label: "Etiqueta", widget: string }
+          - { name: name, label: Nombre, widget: string }
+          - { name: lead, label: Subtítulo, widget: text }
+          - { name: image, label: Foto, widget: image, hint: *img }
+          - { name: image_alt, label: "Descripción de la foto", widget: string, required: false }
+          - { name: statement, label: "Frase grande", widget: text, hint: "Pon *entre asteriscos* lo que va en cursiva." }
+          - name: text
+            label: "Párrafos"
+            widget: list
+            field: { name: paragraph, label: Párrafo, widget: text }
+          - { name: events_kicker, label: "Eventos · etiqueta", widget: string }
+          - { name: events_title, label: "Eventos · título", widget: string, hint: *hl }
+          - { name: events_text, label: "Eventos · texto", widget: text }
+          - { name: events_image, label: "Eventos · foto", widget: image, hint: *img }
+          - { name: events_image_alt, label: "Eventos · descripción de la foto", widget: string, required: false }
+          - name: fairs
+            label: "Ferias y eventos (también en la cinta de la home)"
+            widget: list
+            field: { name: fair, label: Feria, widget: string }
+          - { name: languages_label, label: "Texto «Languages:»", widget: string }
+          - { name: based_label, label: "Texto «Based in»", widget: string }
+          - { name: cta_title, label: "Bloque final · título", widget: string }
+          - { name: cta_text, label: "Bloque final · texto", widget: text }
+
+      - name: contact
+        label: Contacto
+        file: content/contact.json
+        fields:
+          - { name: seo_title, label: "Título en Google", widget: string }
+          - { name: seo_description, label: "Descripción en Google", widget: text }
+          - { name: title, label: Titular, widget: string, hint: *hl }
+          - { name: lead, label: Subtítulo, widget: text }
+          - { name: email_label, label: "Etiqueta email", widget: string }
+          - { name: linkedin_label, label: "Etiqueta LinkedIn", widget: string }
+          - { name: linkedin_text, label: "Texto del enlace a LinkedIn", widget: string }
+          - { name: studio_label, label: "Etiqueta ciudad", widget: string }
+          - { name: form_name, label: "Formulario · Name", widget: string }
+          - { name: form_company, label: "Formulario · Company", widget: string }
+          - { name: form_email, label: "Formulario · Email", widget: string }
+          - { name: form_market, label: "Formulario · Target market", widget: string }
+          - name: markets
+            label: "Formulario · opciones de mercado"
+            widget: list
+            field: { name: market, label: Mercado, widget: string }
+          - { name: form_goals, label: "Formulario · pregunta de objetivos", widget: string }
+          - name: goals
+            label: "Formulario · objetivos para marcar"
+            widget: list
+            field: { name: goal, label: Objetivo, widget: string }
+          - { name: form_message, label: "Formulario · campo de mensaje", widget: string }
+          - { name: form_placeholder, label: "Formulario · texto de ejemplo del mensaje", widget: text }
+          - { name: form_submit, label: "Formulario · botón", widget: string }
+
+  # ---------------------------------------------------------------- SERVICIOS
+  - name: services
+    label: Servicios
+    label_singular: Servicio
+    icon: design_services
+    folder: content/services
+    format: json
+    extension: json
+    create: true
+    delete: true
+    slug: "{{name}}"
+    identifier_field: name
+    summary: "{{num}} · {{name}}"
+    sortable_fields: [num, name]
+    fields:
+      - { name: num, label: "Número", widget: string, hint: "01, 02, 03… Ordena los servicios en toda la web." }
+      - { name: name, label: Nombre, widget: string }
+      - { name: short, label: "Subtítulo corto (menú desplegable)", widget: string }
+      - name: color
+        label: Color
+        widget: select
+        options:
+          - { label: Ámbar, value: amber }
+          - { label: Papaya, value: papaya }
+          - { label: Miel, value: honey }
+          - { label: Bosque, value: forest }
+      - { name: image, label: Foto, widget: image, hint: *img }
+      - { name: question, label: "Pregunta (subtítulo grande)", widget: text }
+      - { name: hook, label: "Frase de entrada", widget: text }
+      - name: body
+        label: "Párrafos de introducción"
+        widget: list
+        field: { name: paragraph, label: Párrafo, widget: text }
+      - name: support
+        label: "Lista «What we can support with» (opcional)"
+        widget: list
+        required: false
+        field: { name: item, label: Punto, widget: string }
+      - name: boxes
+        label: "Cajas laterales (opcional)"
+        widget: list
+        required: false
+        summary: "{{title}}"
+        fields:
+          - { name: title, label: "Título de la caja", widget: string }
+          - name: items
+            label: Puntos
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Título, widget: string }
+              - { name: text, label: Texto, widget: text }
+      - name: steps
+        label: "Pasos"
+        widget: list
+        summary: "{{title}}"
+        fields:
+          - { name: title, label: "Título del paso", widget: string }
+          - { name: question, label: "Pregunta / subtítulo", widget: string }
+          - name: text
+            label: "Párrafos"
+            widget: list
+            field: { name: paragraph, label: Párrafo, widget: text }
+          - { name: list_label, label: "Título de las etiquetas (We look at…)", widget: string }
+          - name: list
+            label: "Etiquetas"
+            widget: list
+            field: { name: item, label: Etiqueta, widget: string }
+          - { name: expect, label: "What to expect (opcional)", widget: text, required: false }
+          - { name: best, label: "Best for (opcional)", widget: text, required: false }
+      - name: works
+        label: "Proyectos que se enseñan en este servicio"
+        widget: relation
+        collection: works
+        value_field: "{{slug}}"
+        search_fields: [client, title]
+        display_fields: [client, title]
+        multiple: true
+        required: false
+
+  # ---------------------------------------------------------------- PROYECTOS
+  - name: works
+    label: Proyectos
+    label_singular: Proyecto
+    icon: work
+    folder: content/works
+    format: json
+    extension: json
+    create: true
+    delete: true
+    slug: "{{client}}-{{title}}"
+    identifier_field: title
+    summary: "{{client}} — {{title}}"
+    sortable_fields: [order, client, year]
+    fields:
+      - { name: order, label: "Orden", widget: number, value_type: int, hint: "1 sale primero en la página de proyectos." }
+      - { name: published, label: "Publicado", widget: boolean, default: true, hint: "Apágalo para esconder el proyecto sin borrarlo." }
+      - { name: client, label: Cliente, widget: string }
+      - { name: title, label: "Título", widget: string }
+      - { name: service, label: "Servicio (texto de la etiqueta)", widget: string, hint: "Por ejemplo: Market Intelligence." }
+      - { name: pillar, label: "Pertenece al servicio", widget: relation, collection: services, value_field: "{{slug}}", search_fields: [name], display_fields: [name] }
+      - { name: country, label: "Mercado (ej. Brazil → Spain)", widget: string }
+      - { name: year, label: "Año", widget: number, value_type: int }
+      - name: sectors
+        label: Sectores
+        widget: list
+        field: { name: sector, label: Sector, widget: string }
+      - { name: summary, label: "Resumen (subtítulo y Google)", widget: text }
+      - { name: challenge, label: "The challenge", widget: text }
+      - { name: solution, label: "The solution", widget: text }
+      - name: delivered
+        label: "What we delivered"
+        widget: list
+        field: { name: item, label: Punto, widget: string }
+      - { name: show_quote, label: "Enseñar la cita del cliente", widget: boolean, default: false, hint: "Solo si la cita es real y el cliente ha dado permiso." }
+      - { name: quote, label: "Cita del cliente", widget: text, required: false }
+      - { name: quote_author, label: "Autor de la cita", widget: string, required: false }
+      - { name: quote_role, label: "Cargo / empresa del autor", widget: string, required: false }
