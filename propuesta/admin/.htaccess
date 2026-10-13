@@ -1,0 +1,62 @@
+# Generado por build.py. No editar a mano.
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+Options -Indexes
+# la copia de las respuestas del cuestionario no se sirve nunca
+RedirectMatch 404 "^/(.*/)?_respuestas(/|$)"
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+
+# Direcciones de la web anterior
+RedirectMatch 301 "^/((?:es|pt|fr)/)?contact/?$" "/$1quiz/"
+RedirectMatch 301 "^/our\-services/?$" "/services/"
+RedirectMatch 301 "^/about\-us/?$" "/about/"
+RedirectMatch 301 "^/clients/?$" "/work/"
+RedirectMatch 301 "^/projects\-done/?$" "/work/"
+RedirectMatch 301 "^/news/?$" "/blog/"
+RedirectMatch 301 "^/category/news/?$" "/blog/"
+RedirectMatch 301 "^/feed/?$" "/blog/"
+RedirectMatch 301 "^/why\-biodiversity\-alone\-does\-not\-sell/?$" "/blog/"
+RedirectMatch 301 "^/top\-5\-nutritional\-supplements\-we\-find\-almost\-everywhere/?$" "/blog/"
+RedirectMatch 301 "^/examples\-of\-circular\-economy\-applied\-in\-fruit\-ingredients/?$" "/blog/"
+RedirectMatch 301 "^/newsletter/?$" "/quiz/"
+RedirectMatch 301 "^/sharing\-your\-story/?$" "/services/make-your-story-travel/"
+RedirectMatch 301 "^/content\-restricted/?$" "/"
+RedirectMatch 301 "^/shop/?$" "/"
+RedirectMatch 301 "^/cart/?$" "/"
+RedirectMatch 301 "^/checkout/?$" "/"
+RedirectMatch 301 "^/my\-account/?$" "/"
+RedirectMatch 301 "^/sitemap_index\.xml/?$" "/sitemap.xml"
+RedirectMatch 301 "^/page\-sitemap\.xml/?$" "/sitemap.xml"
+RedirectMatch 301 "^/post\-sitemap\.xml/?$" "/sitemap.xml"
+RedirectMatch 301 "^/category\-sitemap\.xml/?$" "/sitemap.xml"
+RedirectMatch 301 "^/local\-sitemap\.xml/?$" "/sitemap.xml"
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/webp "access plus 1 month"
+ExpiresByType image/png "access plus 1 month"
+ExpiresByType image/jpeg "access plus 1 month"
+ExpiresByType text/css "access plus 1 day"
+ExpiresByType application/javascript "access plus 1 day"
+ExpiresByType application/json "access plus 1 day"
+ExpiresByType text/html "access plus 10 minutes"
+</IfModule>
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json text/plain application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_headers.c>
+Header set X-Content-Type-Options "nosniff"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
