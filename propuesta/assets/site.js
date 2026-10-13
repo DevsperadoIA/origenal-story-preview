@@ -257,8 +257,9 @@ document.querySelectorAll('a.pillar').forEach((card) => {
     });
     return out;
   };
-  let ref = ''; let last = '';
+  let ref = ''; let last = ''; let planName = '';
   const send = (plan) => {
+    planName = plan;
     const fields = quizFields(plan);
     const key = JSON.stringify(fields);
     if (key === last || fields.length < 2) return;   // las mismas respuestas no se mandan dos veces
@@ -274,7 +275,11 @@ document.querySelectorAll('a.pillar').forEach((card) => {
   };
   const tag = (a, answers) => {
     if (!a || !/calendly\.com/.test(a.href)) return;
-    a.href = `${a.href.replace(/&utm_(term|campaign)=[^&]*/g, '')}&utm_term=${encodeURIComponent(code(answers))}${ref ? `&utm_campaign=${ref}` : ''}`;
+    // 1) en la casilla de texto de la reserva (a1 = primera pregunta del formulario de Calendly): se ve en la cita y en su correo
+    // 2) en los campos de seguimiento (utm), que Calendly solo guarda hasta 255 letras y en planes de pago
+    const summary = code(answers);
+    const note = `Quiz ${ref}${planName ? ` · ${planName}` : ''} — ${summary}`;
+    a.href = `${a.href.replace(/&(utm_term|utm_campaign|a1)=[^&]*/g, '')}&utm_term=${encodeURIComponent(summary.slice(0, 240))}${ref ? `&utm_campaign=${ref}` : ''}&a1=${encodeURIComponent(note)}`;
   };
   window.osQuizDone = (root, answers, winner) => {
     const title = root.querySelector('#resTitle');
